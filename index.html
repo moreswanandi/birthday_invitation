@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>You're Invited · 50th Birthday Celebration</title>
+  <meta name="description" content="A special celebration awaits. Open your invitation.">
+  <meta name="theme-color" content="#0b0908">
+
+  <!-- Fonts: elegant serif (headings), script (accents), clean sans (small text).
+       If the internet is slow the page falls back to system fonts - still fine. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Tells CSS that JavaScript is available (so animations can start hidden) -->
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Soft floating gold sparkles (drawn by script.js) -->
+  <canvas id="sparkles" aria-hidden="true"></canvas>
+
+  <noscript>
+    <p class="noscript">Please turn on JavaScript to view this invitation.</p>
+  </noscript>
+
+  <!-- Shown only while [placeholders] are still in config.js -->
+  <div id="draftBar" class="draft-bar" hidden>
+    PREVIEW MODE – replace the [bracketed] details in config.js before sharing
+  </div>
+
+  <!-- ====================== SCREEN 1: THE GRAND OPENING ======================
+       Doors + curtains, like the reference reel. Tap to open. -->
+  <div id="gate" class="gate" role="dialog" aria-label="Open your invitation">
+    <div class="curtain curtain-l"></div>
+    <div class="curtain curtain-r"></div>
+    <div class="door door-l"></div>
+    <div class="door door-r"></div>
+
+    <div class="gate-center">
+      <button id="sealBtn" class="seal" type="button" aria-label="Open invitation">
+        <span class="seal-num" id="sealNum">50</span>
+      </button>
+      <p class="gate-kicker">A Special Celebration Awaits</p>
+      <button id="openBtn" class="btn btn-gold" type="button">Open Invitation</button>
+    </div>
+  </div>
+
+  <!-- Music on/off (appears only if a music file exists) -->
+  <button id="musicBtn" class="music-btn" type="button" aria-label="Turn music off" hidden>
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <path class="m-note" d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6.5" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="16.5" cy="16" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <line class="m-slash" x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  <main id="invitation">
+
+    <!-- ====================== SCREEN 2: THE REVEAL ====================== -->
+    <section id="hero" class="hero">
+      <p class="script r1">You're Invited to</p>
+      <h1 class="celebrant r2" id="heroName">Dad's Name 's</h1>
+      
+      <div class="big-number r4" id="bigAge" aria-hidden="true">50th Birthday Celebration</div>
+      <p class="occasion r5" id="heroOccasion"></p>
+      <br>
+      <p class="eyebrow r3" id="heroLine">Celebrating 50 Wonderful Years</p>
+      <a class="scroll-cue r6" href="#memories" aria-label="Scroll down">
+        <span>Scroll</span><i></i>
+      </a>
+    </section>
+
+    <!-- ====================== SCREEN 3: PHOTOS ====================== -->
+    <section id="memories" class="section memories" hidden>
+      <p class="eyebrow reveal">Fifty Years, Fifty Stories</p>
+      <h2 class="title reveal">A Life Well Celebrated</h2>
+      <div id="portraitSlot" class="portrait-slot reveal"></div>
+      <div id="galleryTrack" class="gallery reveal" tabindex="0" aria-label="Photo gallery, swipe sideways"></div>
+    </section>
+
+    <!-- ====================== SCREEN 4: THE MESSAGE ====================== -->
+    <section id="message" class="section message">
+      <div class="divider reveal"><span></span><b>✦</b><span></span></div>
+      <p class="message-text reveal" id="messageText"></p>
+      <p class="script host reveal" id="hostLine"></p>
+    </section>
+
+    <!-- ====================== THE DATE (scratch to reveal) ====================== -->
+    <section id="dateSection" class="section date-section" hidden>
+      <p class="eyebrow reveal">Save the Date</p>
+      <div class="scratch-wrap reveal">
+        <div class="scratch-under" id="scratchUnder">
+          <p class="su-day" id="suDay"></p>
+          <p class="su-date" id="suDate"></p>
+          <p class="su-time" id="suTime"></p>
+        </div>
+        <canvas id="scratchCanvas" aria-hidden="true"></canvas>
+      </div>
+      <button id="revealBtn" class="link-btn reveal" type="button">Scratch with your finger, or tap here to reveal</button>
+      <div class="btn-row reveal" id="calendarBtns" hidden>
+        <a id="gcalBtn" class="btn btn-outline" target="_blank" rel="noopener">Add to Google Calendar</a>
+        <a id="icsBtn" class="btn btn-outline" href="#" role="button">Download .ics</a>
+      </div>
+    </section>
+
+    <!-- ====================== COUNTDOWN ====================== -->
+    <section id="countdown" class="section countdown" hidden>
+      <p class="script reveal">Counting down to the celebration</p>
+      <div class="count-grid reveal" id="countGrid">
+        <div><b id="cDays">00</b><span>Days</span></div>
+        <div><b id="cHours">00</b><span>Hours</span></div>
+        <div><b id="cMins">00</b><span>Minutes</span></div>
+        <div><b id="cSecs">00</b><span>Seconds</span></div>
+      </div>
+      <p class="count-done reveal" id="countDone" hidden></p>
+    </section>
+
+    <!-- ====================== SCREEN 5: EVENT DETAILS ====================== -->
+    <section id="details" class="section details">
+      <p class="eyebrow reveal">The Details</p>
+      <h2 class="title reveal">Join Us</h2>
+      <div class="cards" id="detailCards"></div>
+      <div class="btn-row reveal">
+        <a id="mapsBtn" class="btn btn-gold" target="_blank" rel="noopener" hidden>Get Directions</a>
+      </div>
+    </section>
+
+    <!-- Optional programme -->
+    <section id="scheduleSection" class="section schedule" hidden>
+      <h2 class="script reveal">Program Timeline</h2>
+      <ol class="timeline" id="timelineList"></ol>
+    </section>
+
+    <!-- ====================== SCREEN 7: RSVP ====================== -->
+    <section id="rsvp" class="section rsvp" hidden>
+      <p class="eyebrow reveal">Will you join us?</p>
+      <h2 class="title reveal">RSVP</h2>
+      <p class="small reveal" id="rsvpNote"></p>
+      <div class="btn-row reveal">
+        <a id="rsvpBtn" class="btn btn-gold" target="_blank" rel="noopener">Reply Here</a>
+      </div>
+    </section>
+
+    <!-- ====================== SCREEN 8: THE GRAND FINALE ====================== -->
+    <section id="finale" class="section finale">
+      <div id="finalePhotoSlot" class="finale-photo reveal"></div>
+      <h2 class="title reveal" id="finaleTitle"></h2>
+      <div class="big-number small-num reveal" id="finaleAge" aria-hidden="true">50</div>
+      <p class="message-text reveal" id="thanks"></p>
+      <p class="script reveal" id="finaleHost"></p>
+      <button id="confettiBtn" class="link-btn reveal" type="button">✦ Celebrate ✦</button>
+    </section>
+
+    <footer class="footer">
+      <p>Made with love</p>
+    </footer>
+  </main>
+
+  <!-- Order matters: config first, then the script that reads it -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
